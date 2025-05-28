@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3 shadow-sm">
+    <h2>Configurações</h2>
+    <form method="post" class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Créditos Iniciais</label>
+            <input type="number" name="creditos" value="{{ config[0] }}" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Limite de Alerta</label>
+            <input type="number" name="alerta" value="{{ config[1] }}" class="form-control" required>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" onclick="window.location.href='/'" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

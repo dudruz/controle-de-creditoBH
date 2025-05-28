@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lançamentos</h2>
+
+<form method="get" action="/lancamentos" class="mb-4">
+    <label for="empresa">Selecionar Empresa:</label>
+    <select name="empresa" id="empresa" class="form-select w-auto d-inline-block">
+        <option value="">-- Selecione --</option>
+        {% for e in empresas %}
+        <option value="{{ e.empresa }}" {% if e.empresa == empresa_selecionada %}selected{% endif %}>{{ e.empresa }}</option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-primary">Filtrar</button>
+</form>
+
+{% if empresa_selecionada %}
+<h3>Dashboard da Empresa: {{ empresa_selecionada }}</h3>
+<ul>
+    <li>Total de Créditos: {{ dashboard.creditos }}</li>
+    <li>Total Utilizado: {{ dashboard.utilizados }}</li>
+    <li>Saldo: {{ dashboard.saldo }}</li>
+    {% if dashboard.alerta %}
+    <li style="color:red;">Alerta: Crédito baixo!</li>
+    {% endif %}
+</ul>
+
+<h3>Registrar Novo Lançamento</h3>
+<form method="post" action="/lancamentos">
+    <input type="hidden" name="empresa" value="{{ empresa_selecionada }}">
+    <div class="mb-3">
+        <label for="data" class="form-label">Data</label>
+        <input type="date" id="data" name="data" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="quantidade" class="form-label">Quantidade Usada</label>
+        <input type="number" id="quantidade" name="quantidade" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="responsavel" class="form-label">Responsável</label>
+        <input type="text" id="responsavel" name="responsavel" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="observacoes" class="form-label">Observações</label>
+        <textarea id="observacoes" name="observacoes" class="form-control"></textarea>
+    </div>
+    <button class="btn btn-primary">Registrar Lançamento</button>
+</form>
+
+<hr>
+
+<h3>Histórico de Lançamentos</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Quantidade</th>
+            <th>Responsável</th>
+            <th>Observações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for l in lancamentos %}
+        <tr>
+            <td>{{ l.data }}</td>
+            <td>{{ l.quantidade }}</td>
+            <td>{{ l.responsavel }}</td>
+            <td>{{ l.observacoes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<p>Por favor, selecione uma empresa para ver os lançamentos.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3 shadow-sm">
+    <h2>Dashboard</h2>
+    <p><strong>Total Utilizado:</strong> {{ total }}</p>
+    <p><strong>Saldo Atual:</strong> {{ saldo }}</p>
+    {% if alerta %}
+        <p class="text-danger fw-bold">⚠️ Crédito baixo!</p>
+    {% else %}
+        <p class="text-success">Status: OK</p>
+    {% endif %}
+</div>
+{% endblock %}
